@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - BD TRADE</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loader">
+            <div class="orbit"></div>
+            <div class="orbit"></div>
+            <div class="orbit"></div>
+        </div>
+        <p>LOADING DASHBOARD...</p>
+    </div>
+
+    <div class="dashboard-container" id="dashboardContainer" style="display: none;">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="dashboard-logo">
+                    <div class="logo-text">BD TRADE</div>
+                    <div class="logo-sub">DASHBOARD</div>
+                </div>
+                <button class="sidebar-toggle" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+
+            <div class="user-profile">
+                <div class="profile-pic">
+                    <i class="fas fa-user-astronaut"></i>
+                </div>
+                <div class="profile-info">
+                    <div class="user-name" id="userName">TRADER</div>
+                    <div class="user-uid" id="userUID">UID: --------</div>
+                </div>
+            </div>
+
+            <nav class="sidebar-menu">
+                <a href="dashboard.html" class="menu-item active">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>DASHBOARD</span>
+                </a>
+                <a href="#account" class="menu-item">
+                    <i class="fas fa-user-circle"></i>
+                    <span>ACCOUNT</span>
+                </a>
+                <a href="#wallet" class="menu-item">
+                    <i class="fas fa-wallet"></i>
+                    <span>WALLET</span>
+                </a>
+                <a href="trade.html" class="menu-item">
+                    <i class="fas fa-chart-line"></i>
+                    <span>COLOR TRADE</span>
+                </a>
+                <a href="#referral" class="menu-item">
+                    <i class="fas fa-user-friends"></i>
+                    <span>REFER & EARN</span>
+                </a>
+                <a href="#settings" class="menu-item">
+                    <i class="fas fa-cog"></i>
+                    <span>SETTINGS</span>
+                </a>
+                <a href="index.html" class="menu-item logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>LOGOUT</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="balance-card">
+                    <div class="balance-label">TOTAL BALANCE</div>
+                    <div class="balance-amount">$<span id="sidebarBalance">0.00</span></div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="top-bar">
+                <div class="top-bar-left">
+                    <div class="welcome-message">
+                        <h1>WELCOME, <span id="welcomeName">TRADER</span></h1>
+                        <p>Ready to make some trades?</p>
+                    </div>
+                </div>
+                
+                <div class="top-bar-right">
+                    <div class="notification-bell">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count">0</span>
+                    </div>
+                    <div class="quick-actions">
+                        <button class="btn-quick" onclick="window.location.href='trade.html'">
+                            <i class="fas fa-bolt"></i> TRADE NOW
+                        </button>
+                        <button class="btn-quick" onclick="window.location.href='#wallet'">
+                            <i class="fas fa-plus"></i> DEPOSIT
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Grid -->
+            <div class="dashboard-grid">
+                <!-- Balance Card -->
+                <div class="dashboard-card balance-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-wallet"></i> ACCOUNT BALANCE</h3>
+                        
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="balance-display">
+                            <div class="balance-main">$<span id="mainBalance">0.00</span></div>
+                            <div class="balance-change">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>+$0.00 today</span>
+                            </div>
+                        </div>
+                        <div class="balance-actions">
+                            <button class="btn-action deposit" onclick="showDepositModal()">
+                                <i class="fas fa-arrow-down"></i> DEPOSIT
+                            </button>
+                            <button class="btn-action withdraw" onclick="showWithdrawModal()">
+                                <i class="fas fa-arrow-up"></i> WITHDRAW
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trading Stats -->
+                <div class="dashboard-card stats-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-chart-bar"></i> TRADING STATS</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-label">TOTAL TRADES</div>
+                                <div class="stat-value" id="totalTrades">0</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">WIN RATE</div>
+                                <div class="stat-value" id="winRate">0%</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">PROFIT/LOSS</div>
+                                <div class="stat-value profit" id="profitLoss">+$0.00</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">BEST TRADE</div>
+                                <div class="stat-value" id="bestTrade">$0.00</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Trades -->
+                <div class="dashboard-card trades-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-history"></i> RECENT TRADES</h3>
+                        <a href="#all-trades" class="btn-view-all">VIEW ALL</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="trades-list">
+                            <div class="trade-item win">
+                                <div class="trade-color red"></div>
+                                <div class="trade-details">
+                                    <div class="trade-type">RED</div>
+                                    <div class="trade-time">Just now</div>
+                                </div>
+                                <div class="trade-amount">+$1.90</div>
+                            </div>
+                            <div class="trade-item loss">
+                                <div class="trade-color green"></div>
+                                <div class="trade-details">
+                                    <div class="trade-type">GREEN</div>
+                                    <div class="trade-time">2 min ago</div>
+                                </div>
+                                <div class="trade-amount">-$1.00</div>
+                            </div>
+                            <div class="trade-item win">
+                                <div class="trade-color green"></div>
+                                <div class="trade-details">
+                                    <div class="trade-type">GREEN</div>
+                                    <div class="trade-time">5 min ago</div>
+                                </div>
+                                <div class="trade-amount">+$4.75</div>
+                            </div>
+                            <div class="trade-item pending">
+                                <div class="trade-color"></div>
+                                <div class="trade-details">
+                                    <div class="trade-type">PENDING</div>
+                                    <div class="trade-time">Live trade</div>
+                                </div>
+                                <div class="trade-amount">$5.00</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Leaderboard -->
+                <div class="dashboard-card leaderboard-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-trophy"></i> TOP TRADERS</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="leaderboard-list">
+                            <div class="leader-item first">
+                                <div class="rank">1</div>
+                                <div class="trader-name">CRYPTO_KING</div>
+                                <div class="trader-profit">+$12,450</div>
+                            </div>
+                            <div class="leader-item second">
+                                <div class="rank">2</div>
+                                <div class="trader-name">BITCOIN_BULL</div>
+                                <div class="trader-profit">+$9,870</div>
+                            </div>
+                            <div class="leader-item third">
+                                <div class="rank">3</div>
+                                <div class="trader-name">TRADE_MASTER</div>
+                                <div class="trader-profit">+$7,650</div>
+                            </div>
+                            <div class="leader-item">
+                                <div class="rank">4</div>
+                                <div class="trader-name">YOU</div>
+                                <div class="trader-profit">+$0.00</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Deposit/Withdraw History -->
+                <div class="dashboard-card history-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-exchange-alt"></i> TRANSACTION HISTORY</h3>
+                        <div class="history-tabs">
+                            <button class="tab-btn active" onclick="showHistory('deposit')">DEPOSIT</button>
+                            <button class="tab-btn" onclick="showHistory('withdraw')">WITHDRAW</button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="history-list" id="depositHistory">
+                            <div class="history-item">
+                                <div class="history-type deposit">
+                                    <i class="fas fa-arrow-down"></i>
+                                    <span>Bkash Deposit</span>
+                                </div>
+                                <div class="history-date">2024-03-15 14:30</div>
+                                <div class="history-amount">+$100.00</div>
+                                <div class="history-status approved">Approved</div>
+                            </div>
+                            <div class="history-item">
+                                <div class="history-type deposit">
+                                    <i class="fas fa-arrow-down"></i>
+                                    <span>Nagad Deposit</span>
+                                </div>
+                                <div class="history-date">2024-03-14 10:15</div>
+                                <div class="history-amount">+$50.00</div>
+                                <div class="history-status pending">Pending</div>
+                            </div>
+                        </div>
+                        <div class="history-list" id="withdrawHistory" style="display: none;">
+                            <div class="history-item">
+                                <div class="history-type withdraw">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>Bkash Withdraw</span>
+                                </div>
+                                <div class="history-date">2024-03-13 16:45</div>
+                                <div class="history-amount">-$25.00</div>
+                                <div class="history-status approved">Approved</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Trade -->
+                <div class="dashboard-card quick-trade-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-bolt"></i> QUICK TRADE</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="quick-trade">
+                            <div class="time-options">
+                                <button class="time-option active">30s</button>
+                                <button class="time-option">1m</button>
+                                <button class="time-option">3m</button>
+                                <button class="time-option">5m</button>
+                            </div>
+                            <div class="color-buttons">
+                                <button class="color-btn red" onclick="placeQuickTrade('red')">
+                                    <i class="fas fa-arrow-down"></i> RED
+                                    <div class="odds">1.90x</div>
+                                </button>
+                                <button class="color-btn green" onclick="placeQuickTrade('green')">
+                                    <i class="fas fa-arrow-up"></i> GREEN
+                                    <div class="odds">1.90x</div>
+                                </button>
+                            </div>
+                            <div class="amount-selector">
+                                <input type="number" class="amount-input" value="5" min="1" max="1000">
+                                <button class="btn-trade-now" onclick="executeQuickTrade()">
+                                    TRADE NOW <i class="fas fa-rocket"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Deposit Modal -->
+            <div class="modal" id="depositModal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2><i class="fas fa-arrow-down"></i> DEPOSIT FUNDS</h2>
+                        <button class="modal-close" onclick="closeDepositModal()">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="deposit-options">
+                            <div class="option-card" onclick="selectDepositMethod('bkash')">
+                                <i class="fas fa-mobile-alt"></i>
+                                <h3>Bkash</h3>
+                                <p>Instant Deposit</p>
+                            </div>
+                            <div class="option-card" onclick="selectDepositMethod('nagad')">
+                                <i class="fas fa-wallet"></i>
+                                <h3>Nagad</h3>
+                                <p>Fast Processing</p>
+                            </div>
+                            <div class="option-card" onclick="selectDepositMethod('usdt')">
+                                <i class="fab fa-usd"></i>
+                                <h3>USDT</h3>
+                                <p>Crypto Deposit</p>
+                            </div>
+                        </div>
+                        
+                        <div class="deposit-form" id="depositForm" style="display: none;">
+                            <h3 id="methodTitle">DEPOSIT VIA Bkash</h3>
+                            <div class="form-group">
+                                <label>Send money to this number:</label>
+                                <div class="payment-number">
+                                    <span id="paymentNumber">+88 01767668270</span>
+                                    <button class="btn-copy" onclick="copyPaymentNumber()">
+                                        <i class="fas fa-copy"></i> COPY
+                                    </button>
+                                </div>
+                                <small class="note">* This number only accepts Send Money</small>
+                            </div>
+                            <div class="form-group">
+                                <label>Minimum Deposit: $100</label>
+                                <input type="number" id="depositAmount" placeholder="Enter amount" min="100">
+                            </div>
+                            <div class="quick-amounts">
+                                <button class="quick-amount" onclick="setAmount(500)">500</button>
+                                <button class="quick-amount" onclick="setAmount(1000)">1K</button>
+                                <button class="quick-amount" onclick="setAmount(5000)">5K</button>
+                                <button class="quick-amount" onclick="setAmount(10000)">10K</button>
+                                <button class="quick-amount" onclick="setAmount(25000)">25K</button>
+                            </div>
+                            <div class="form-group">
+                                <label>Transaction ID (10 digits):</label>
+                                <input type="text" id="transactionId" placeholder="Enter Transaction ID" maxlength="10">
+                            </div>
+                            <button class="btn-submit-deposit" onclick="submitDeposit()">
+                                <i class="fas fa-paper-plane"></i> SUBMIT DEPOSIT
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Withdraw Modal -->
+            <div class="modal" id="withdrawModal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2><i class="fas fa-arrow-up"></i> WITHDRAW FUNDS</h2>
+                        <button class="modal-close" onclick="closeWithdrawModal()">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="withdraw-options">
+                            <div class="option-card" onclick="selectWithdrawMethod('bkash')">
+                                <i class="fas fa-mobile-alt"></i>
+                                <h3>Bkash</h3>
+                                <p>Min: $300</p>
+                            </div>
+                            <div class="option-card" onclick="selectWithdrawMethod('nagad')">
+                                <i class="fas fa-wallet"></i>
+                                <h3>Nagad</h3>
+                                <p>Min: $300</p>
+                            </div>
+                            <div class="option-card" onclick="selectWithdrawMethod('usdt')">
+                                <i class="fab fa-usd"></i>
+                                <h3>USDT</h3>
+                                <p>Min: $100</p>
+                            </div>
+                        </div>
+                        
+                        <div class="withdraw-form" id="withdrawForm" style="display: none;">
+                            <h3 id="withdrawMethodTitle">WITHDRAW TO Bkash</h3>
+                            <div class="form-group">
+                                <label>Your Bkash Number:</label>
+                                <input type="text" id="withdrawNumber" placeholder="01XXXXXXXXX">
+                            </div>
+                            <div class="form-group">
+                                <label>Amount (Min: $300):</label>
+                                <input type="number" id="withdrawAmount" placeholder="Enter amount" min="300">
+                            </div>
+                            <div class="form-group">
+                                <label>Account Password:</label>
+                                <input type="password" id="withdrawPassword" placeholder="Enter your password">
+                            </div>
+                            <button class="btn-submit-withdraw" onclick="submitWithdraw()">
+                                <i class="fas fa-paper-plane"></i> REQUEST WITHDRAW
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Trade - BD TRADE</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="trade.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loader">
+            <div class="orbit"></div>
+            <div class="orbit"></div>
+            <div class="orbit"></div>
+        </div>
+        <p>INITIALIZING TRADING PLATFORM...</p>
+    </div>
+
+    <div class="trading-container" id="tradingContainer" style="display: none;">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="dashboard-logo">
+                    <div class="logo-text">BD TRADE</div>
+                    <div class="logo-sub">TRADING</div>
+                </div>
+                <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+
+            <div class="user-profile">
+                <div class="profile-pic">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <div class="profile-info">
+                    <div class="user-name" id="userName">TRADER</div>
+                    <div class="user-uid" id="userUID">UID: --------</div>
+                </div>
+            </div>
+
+            <nav class="sidebar-menu">
+                <a href="dashboard.html" class="menu-item">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>DASHBOARD</span>
+                </a>
+                <a href="account.html" class="menu-item">
+                    <i class="fas fa-user-circle"></i>
+                    <span>ACCOUNT</span>
+                </a>
+                <a href="wallet.html" class="menu-item">
+                    <i class="fas fa-wallet"></i>
+                    <span>WALLET</span>
+                </a>
+                <a href="trade.html" class="menu-item active">
+                    <i class="fas fa-chart-line"></i>
+                    <span>COLOR TRADE</span>
+                </a>
+                <a href="referral.html" class="menu-item">
+                    <i class="fas fa-user-friends"></i>
+                    <span>REFER & EARN</span>
+                </a>
+                <a href="settings.html" class="menu-item">
+                    <i class="fas fa-cog"></i>
+                    <span>SETTINGS</span>
+                </a>
+                <a href="logout.html" class="menu-item logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>LOGOUT</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="balance-card">
+                    <div class="balance-label">TRADING BALANCE</div>
+                    <div class="balance-amount">$<span id="sidebarBalance">0.00</span></div>
+                </div>
+                <div class="profit-stats">
+                    <div class="stat-item">
+                        <span>Today:</span>
+                        <span class="profit">+$<span id="todayProfit">0.00</span></span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Trading Area -->
+        <main class="trading-main">
+            <!-- Top Bar -->
+            <header class="trading-header">
+                <div class="header-left">
+                    <h1><i class="fas fa-palette"></i> COLOR TRADING</h1>
+                    <p>Predict the color, win rewards!</p>
+                </div>
+                
+                <div class="header-right">
+                    <div class="live-stats">
+                        <div class="stat">
+                            <span class="stat-label">LIVE TRADERS:</span>
+                            <span class="stat-value" id="liveTradersCount">1247</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">YOUR BALANCE:</span>
+                            <span class="stat-value">$<span id="mainBalance">0.00</span></span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">ACTIVE BETS:</span>
+                            <span class="stat-value" id="activeBets">0</span>
+                        </div>
+                    </div>
+                    <button class="btn-deposit" onclick="window.location.href='deposit.html'" aria-label="Deposit money">
+                        <i class="fas fa-plus"></i> DEPOSIT
+                    </button>
+                    <button class="btn-help" id="helpBtn" aria-label="Help">
+                        <i class="fas fa-question-circle"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Trading Interface -->
+            <div class="trading-interface">
+                <!-- Left Panel: Chart and Timer -->
+                <div class="left-panel">
+                    <!-- Time Selection -->
+                    <div class="time-selection">
+                        <h3><i class="fas fa-clock"></i> SELECT TIME</h3>
+                        <div class="time-buttons">
+                            <button class="time-btn active" data-time="30" aria-label="30 seconds">30 SECONDS</button>
+                            <button class="time-btn" data-time="60" aria-label="1 minute">1 MINUTE</button>
+                            <button class="time-btn" data-time="180" aria-label="3 minutes">3 MINUTES</button>
+                            <button class="time-btn" data-time="300" aria-label="5 minutes">5 MINUTES</button>
+                        </div>
+                    </div>
+
+                    <!-- Trading Chart -->
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <h3><i class="fas fa-chart-candlestick"></i> LIVE CANDLE CHART</h3>
+                            <div class="chart-controls">
+                                <button class="chart-btn" id="zoomIn" aria-label="Zoom in"><i class="fas fa-search-plus"></i></button>
+                                <button class="chart-btn" id="zoomOut" aria-label="Zoom out"><i class="fas fa-search-minus"></i></button>
+                                <button class="chart-btn" id="resetChart" aria-label="Reset chart"><i class="fas fa-redo"></i></button>
+                                <button class="chart-btn" id="fullscreenChart" aria-label="Fullscreen"><i class="fas fa-expand"></i></button>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="tradingChart"></canvas>
+                            <div class="chart-overlay">
+                                <div class="live-price" id="livePrice">$100.00</div>
+                                <div class="chart-legend">
+                                    <span class="legend-item"><div class="legend-color green"></div> Green</span>
+                                    <span class="legend-item"><div class="legend-color red"></div> Red</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Countdown Timer -->
+                    <div class="timer-container">
+                        <div class="timer-header">
+                            <h3><i class="fas fa-hourglass-half"></i> NEXT TRADE IN</h3>
+                            <div class="round-info">
+                                Round: <span id="roundNumber">#1</span>
+                            </div>
+                        </div>
+                        <div class="timer-display">
+                            <div class="time-circle">
+                                <svg width="200" height="200" viewBox="0 0 200 200">
+                                    <circle cx="100" cy="100" r="90" stroke="#00ffea" stroke-width="10" fill="none" opacity="0.2"></circle>
+                                    <circle id="timer-circle" cx="100" cy="100" r="90" stroke="#00ffea" stroke-width="10" fill="none" stroke-dasharray="565.48" stroke-dashoffset="0" transform="rotate(-90 100 100)"></circle>
+                                </svg>
+                                <div class="time-text" id="countdown">30</div>
+                            </div>
+                            <div class="timer-status" id="timerStatus">PLACE YOUR BET</div>
+                            <div class="timer-actions">
+                                <button class="btn-timer-action" id="pauseTimer" aria-label="Pause timer">
+                                    <i class="fas fa-pause"></i>
+                                </button>
+                                <button class="btn-timer-action" id="soundToggle" aria-label="Toggle sound">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Panel: Betting Interface -->
+                <div class="right-panel">
+                    <!-- Bet Amount Selection -->
+                    <div class="bet-selection">
+                        <h3><i class="fas fa-coins"></i> SELECT AMOUNT</h3>
+                        <div class="amount-buttons">
+                            <button class="amount-btn active" data-amount="5" aria-label="Bet $5">5</button>
+                            <button class="amount-btn" data-amount="10" aria-label="Bet $10">10</button>
+                            <button class="amount-btn" data-amount="50" aria-label="Bet $50">50</button>
+                            <button class="amount-btn" data-amount="100" aria-label="Bet $100">100</button>
+                            <button class="amount-btn" data-amount="500" aria-label="Bet $500">500</button>
+                            <button class="amount-btn" data-amount="1000" aria-label="Bet $1000">1K</button>
+                        </div>
+                        <div class="custom-amount">
+                            <input type="number" id="customBet" placeholder="Custom Amount" min="1" max="10000" aria-label="Enter custom bet amount">
+                            <button class="btn-set" onclick="setCustomBet()" aria-label="Set custom amount">SET</button>
+                        </div>
+                        <div class="quick-actions">
+                            <button class="btn-quick" onclick="quickBet('half')" aria-label="Bet half of balance">½</button>
+                            <button class="btn-quick" onclick="quickBet('double')" aria-label="Double bet amount">2×</button>
+                            <button class="btn-quick" onclick="quickBet('max')" aria-label="Bet maximum amount">MAX</button>
+                        </div>
+                    </div>
+
+                    <!-- Color Selection -->
+                    <div class="color-selection">
+                        <h3><i class="fas fa-palette"></i> PREDICT COLOR</h3>
+                        <div class="color-buttons">
+                            <button class="color-btn red-btn" id="redBtn" aria-label="Bet on Red color">
+                                <div class="color-display red"></div>
+                                <div class="color-info">
+                                    <div class="color-name">RED</div>
+                                    <div class="color-odds">1.90x</div>
+                                </div>
+                                <div class="color-stats">
+                                    <div class="stat-win">Win: 48.5%</div>
+                                    <div class="stat-payout">Payout: 90%</div>
+                                </div>
+                                <div class="color-trend">
+                                    <i class="fas fa-arrow-up" id="redTrend"></i>
+                                    <span id="redCount">0</span>
+                                </div>
+                            </button>
+                            
+                            <button class="color-btn green-btn" id="greenBtn" aria-label="Bet on Green color">
+                                <div class="color-display green"></div>
+                                <div class="color-info">
+                                    <div class="color-name">GREEN</div>
+                                    <div class="color-odds">1.90x</div>
+                                </div>
+                                <div class="color-stats">
+                                    <div class="stat-win">Win: 48.5%</div>
+                                    <div class="stat-payout">Payout: 90%</div>
+                                </div>
+                                <div class="color-trend">
+                                    <i class="fas fa-arrow-up" id="greenTrend"></i>
+                                    <span id="greenCount">0</span>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="color-prediction">
+                            <div class="prediction-title">AI PREDICTION:</div>
+                            <div class="prediction-result" id="aiPrediction">ANALYZING...</div>
+                        </div>
+                    </div>
+
+                    <!-- Bet Summary -->
+                    <div class="bet-summary">
+                        <h3><i class="fas fa-file-invoice-dollar"></i> BET SUMMARY</h3>
+                        <div class="summary-details">
+                            <div class="summary-row">
+                                <span>Selected Color:</span>
+                                <span id="selectedColor">None</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Bet Amount:</span>
+                                <span>$<span id="betAmount">0.00</span></span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Potential Win:</span>
+                                <span class="profit">$<span id="potentialWin">0.00</span></span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Potential Loss:</span>
+                                <span class="loss">$<span id="potentialLoss">0.00</span></span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Risk Level:</span>
+                                <span id="riskLevel">LOW</span>
+                            </div>
+                        </div>
+                        <button class="btn-place-bet" id="placeBetBtn" disabled aria-label="Place bet">
+                            <i class="fas fa-hand-pointer"></i> PLACE BET
+                        </button>
+                        <button class="btn-cancel-bet" id="cancelBetBtn" style="display: none;" aria-label="Cancel bet">
+                            <i class="fas fa-times"></i> CANCEL BET
+                        </button>
+                        <div class="bet-warning" id="betWarning">
+                            <i class="fas fa-exclamation-triangle"></i> Please select a color first
+                        </div>
+                    </div>
+
+                    <!-- Recent Results -->
+                    <div class="recent-results">
+                        <h3><i class="fas fa-history"></i> RECENT RESULTS</h3>
+                        <div class="results-header">
+                            <span>Last 20 Results</span>
+                            <button class="btn-clear" onclick="clearResults()" aria-label="Clear results">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                        <div class="results-list" id="resultsList">
+                            <!-- Results will be added dynamically -->
+                        </div>
+                        <div class="results-stats">
+                            <div class="stat-box">
+                                <div class="stat-title">Red Wins</div>
+                                <div class="stat-value red" id="redWins">10</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-title">Green Wins</div>
+                                <div class="stat-value green" id="greenWins">10</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-title">Win Rate</div>
+                                <div class="stat-value blue" id="winRate">50%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trade History -->
+            <div class="trade-history">
+                <div class="history-header">
+                    <h3><i class="fas fa-scroll"></i> YOUR TRADE HISTORY</h3>
+                    <div class="history-controls">
+                        <div class="history-filters">
+                            <button class="filter-btn active" onclick="filterHistory('all')" aria-label="Show all trades">ALL</button>
+                            <button class="filter-btn" onclick="filterHistory('win')" aria-label="Show wins only">WINS</button>
+                            <button class="filter-btn" onclick="filterHistory('loss')" aria-label="Show losses only">LOSSES</button>
+                            <button class="filter-btn" onclick="filterHistory('pending')" aria-label="Show pending trades">PENDING</button>
+                        </div>
+                        <div class="history-search">
+                            <input type="text" id="historySearch" placeholder="Search trades..." aria-label="Search trade history">
+                            <button class="btn-search" onclick="searchHistory()" aria-label="Search">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                        <button class="btn-export" onclick="exportHistory()" aria-label="Export history">
+                            <i class="fas fa-download"></i> EXPORT
+                        </button>
+                    </div>
+                </div>
+                <div class="history-table-container">
+                    <table class="history-table">
+                        <thead>
+                            <tr>
+                                <th>TIME</th>
+                                <th>ROUND</th>
+                                <th>COLOR</th>
+                                <th>AMOUNT</th>
+                                <th>RESULT</th>
+                                <th>PROFIT/LOSS</th>
+                                <th>STATUS</th>
+                                <th>ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historyBody">
+                            <tr>
+                                <td colspan="8" class="no-data">
+                                    <i class="fas fa-history"></i> No trading history yet
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="history-pagination" id="historyPagination">
+                    <button class="page-btn" onclick="prevPage()" disabled>
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <span class="page-info">Page <span id="currentPage">1</span> of <span id="totalPages">1</span></span>
+                    <button class="page-btn" onclick="nextPage()" disabled>
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Result Modal -->
+    <div class="result-modal" id="resultModal">
+        <div class="result-content" id="resultContent">
+            <!-- Content will be filled dynamically -->
+        </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div class="help-modal" id="helpModal">
+        <div class="help-content">
+            <div class="help-header">
+                <h3><i class="fas fa-question-circle"></i> TRADING GUIDE</h3>
+                <button class="help-close" onclick="closeHelpModal()" aria-label="Close help">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="help-body">
+                <div class="help-section">
+                    <h4>How to Trade?</h4>
+                    <p>1. Select a time period (30s, 1m, 3m, 5m)</p>
+                    <p>2. Choose your bet amount</p>
+                    <p>3. Predict the color (Red or Green)</p>
+                    <p>4. Place your bet before timer ends</p>
+                </div>
+                <div class="help-section">
+                    <h4>Payout Rules</h4>
+                    <p>• Correct prediction: Win 1.9x your bet</p>
+                    <p>• Wrong prediction: Lose your bet amount</p>
+                    <p>• Minimum bet: $1</p>
+                    <p>• Maximum bet: $10,000</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio Elements -->
+    <audio id="betSound" src="https://assets.mixkit.co/sfx/preview/mixkit-casino-bling-achievement-2067.mp3" preload="auto"></audio>
+    <audio id="winSound" src="https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3" preload="auto"></audio>
+    <audio id="loseSound" src="https://assets.mixkit.co/sfx/preview/mixkit-cartoon-falling-whistle-392.mp3" preload="auto"></audio>
+    <audio id="timerSound" src="https://assets.mixkit.co/sfx/preview/mixkit-clock-countdown-bleeps-916.mp3" preload="auto"></audio>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.0/dist/chartjs-plugin-zoom.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon"></script>
+    
+    <!-- Main Scripts -->
+    <script src="script.js" defer></script>
+    <script src="dashboard.js" defer></script>
+    <script src="trade.js" defer></script>
+    
+    <!-- Debug Script -->
+    <script>
+        // Debug mode
+        window.DEBUG = true;
+        
+        // Log all errors
+        window.addEventListener('error', function(e) {
+            console.error('Global Error:', e.error);
+            showToast('Error: ' + e.message, 'error');
+        });
+        
+        // Global toast function
+        function showToast(message, type = 'info') {
+            Toastify({
+                text: message,
+                duration: 3000,
+                gravity: "top",
+                position: "right",
+                backgroundColor: type === 'error' ? "#ff0000" : 
+                               type === 'success' ? "#00ff00" : "#00ffea",
+                className: "toast"
+            }).showToast();
+        }
+    </script>
+</body>
+</html>

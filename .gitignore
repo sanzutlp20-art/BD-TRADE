@@ -1,0 +1,33 @@
+# .gitignore ফাইল তৈরি করুন
+echo "# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Backup files
+*.bak
+*.backup
+
+# System files
+*.sys
+*.dll
+
+# Environment variables
+.env
+.env.local" > .gitignore

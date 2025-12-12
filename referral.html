@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refer & Earn - BD TRADE</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .referral-container {
+            padding: 20px;
+        }
+
+        .referral-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(255, 0, 255, 0.1), rgba(0, 255, 234, 0.1));
+            border-radius: 15px;
+            border: 1px solid #00ffea;
+        }
+
+        .referral-header h1 {
+            font-size: 36px;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .referral-header p {
+            color: #888;
+            font-size: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .referral-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card-ref {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 234, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .stat-card-ref:hover {
+            border-color: #ff00ff;
+            transform: translateY(-5px);
+        }
+
+        .stat-icon-ref {
+            font-size: 30px;
+            color: #ff00ff;
+            margin-bottom: 15px;
+        }
+
+        .stat-number-ref {
+            font-size: 28px;
+            font-weight: bold;
+            color: #00ffea;
+            margin-bottom: 5px;
+        }
+
+        .stat-label-ref {
+            color: #888;
+            font-size: 14px;
+        }
+
+        .referral-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .referral-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .referral-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 234, 0.2);
+            border-radius: 15px;
+            padding: 30px;
+        }
+
+        .referral-card h2 {
+            color: #fff;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .referral-card h2 i {
+            color: #00ffea;
+        }
+
+        /* Your Referral Code */
+        .referral-code-box {
+            background: rgba(0, 255, 234, 0.1);
+            border: 2px dashed #00ffea;
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .code-label {
+            color: #888;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .code-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #00ffea;
+            font-family: monospace;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+            word-break: break-all;
+        }
+
+        .copy-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .btn-copy-code, .btn-copy-link {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .btn-copy-code {
+            background: linear-gradient(45deg, #ff00ff, #00ffea);
+            color: #000;
+        }
+
+        .btn-copy-link {
+            background: transparent;
+            border: 1px solid #00ffea;
+            color: #00ffea;
+        }
+
+        .btn-copy-code:hover, .btn-copy-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 255, 234, 0.3);
+        }
+
+        /* Share Buttons */
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .share-btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .share-fb {
+            background: #1877f2;
+            color: white;
+        }
+
+        .share-wa {
+            background: #25d366;
+            color: white;
+        }
+
+        .share-telegram {
+            background: #0088cc;
+            color: white;
+        }
+
+        .share-twitter {
+            background: #1da1f2;
+            color: white;
+        }
+
+        .share-btn:hover {
+            transform: translateY(-3px);
+            opacity: 0.9;
+        }
+
+        /* How It Works */
+        .steps-container {
+            margin-top: 20px;
+        }
+
+        .step-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            border-left: 3px solid #00ffea;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #ff00ff, #00ffea);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #000;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+
+        .step-content h4 {
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .step-content p {
+            color: #888;
+            font-size: 14px;
+        }
+
+        /* Referral List */
+        .referral-list {
+            margin-top: 20px;
+        }
+
+        .referral-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .referral-avatar {
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 255, 234, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: #00ffea;
+        }
+
+        .referral-info {
+            flex: 1;
+        }
+
+        .referral-name {
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 3px;
+        }
+
+        .referral-date {
+            color: #888;
+            font-size: 12px;
+        }
+
+        .referral-status {
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status-active {
+            background: rgba(0, 255, 0, 0.1);
+            color: #00ff00;
+            border: 1px solid #00ff00;
+        }
+
+        .status-inactive {
+            background: rgba(255, 0, 0, 0.1);
+            color: #ff0000;
+            border: 1px solid #ff0000;
+        }
+
+        /* Commission History */
+        .commission-history {
+            margin-top: 20px;
+        }
+
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .history-table th {
+            padding: 12px;
+            text-align: left;
+            color: #00ffea;
+            border-bottom: 2px solid #00ffea;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .history-table td {
+            padding: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .history-table tr:hover {
+            background: rgba(0, 255, 234, 0.05);
+        }
+
+        .commission-amount {
+            color: #00ff00;
+            font-weight: bold;
+        }
+
+        /* Referral Banner */
+        .referral-banner {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #ff00ff, #00ffea);
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .banner-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 10px;
+        }
+
+        .banner-subtitle {
+            font-size: 18px;
+            color: #000;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        .banner-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        .banner-stat {
+            text-align: center;
+        }
+
+        .banner-stat-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 5px;
+        }
+
+        .banner-stat-label {
+            color: #000;
+            opacity: 0.8;
+            font-size: 14px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #888;
+        }
+
+        .empty-icon {
+            font-size: 50px;
+            color: #00ffea;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loader">
+            <div class="orbit"></div>
+            <div class="orbit"></div>
+            <div class="orbit"></div>
+        </div>
+        <p>LOADING REFERRAL SYSTEM...</p>
+    </div>
+
+    <div class="dashboard-container" id="dashboardContainer" style="display: none;">
+        <!-- Sidebar (Same as dashboard) -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="dashboard-logo">
+                    <div class="logo-text">BD TRADE</div>
+                    <div class="logo-sub">REFER & EARN</div>
+                </div>
+                <button class="sidebar-toggle" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+
+            <div class="user-profile">
+                <div class="profile-pic">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <div class="profile-info">
+                    <div class="user-name" id="userName">TRADER</div>
+                    <div class="user-uid" id="userUID">UID: --------</div>
+                </div>
+            </div>
+
+            <nav class="sidebar-menu">
+                <a href="dashboard.html" class="menu-item">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>DASHBOARD</span>
+                </a>
+                <a href="#account" class="menu-item">
+                    <i class="fas fa-user-circle"></i>
+                    <span>ACCOUNT</span>
+                </a>
+                <a href="#wallet" class="menu-item">
+                    <i class="fas fa-wallet"></i>
+                    <span>WALLET</span>
+                </a>
+                <a href="trade.html" class="menu-item">
+                    <i class="fas fa-chart-line"></i>
+                    <span>COLOR TRADE</span>
+                </a>
+                <a href="referral.html" class="menu-item active">
+                    <i class="fas fa-user-friends"></i>
+                    <span>REFER & EARN</span>
+                </a>
+                <a href="#settings" class="menu-item">
+                    <i class="fas fa-cog"></i>
+                    <span>SETTINGS</span>
+                </a>
+                <a href="index.html" class="menu-item logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>LOGOUT</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="balance-card">
+                    <div class="balance-label">REFERRAL EARNINGS</div>
+                    <div class="balance-amount">$<span id="referralEarnings">0.00</span></div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="referral-container">
+                <!-- Header -->
+                <div class="referral-header">
+                    <h1>REFER & EARN</h1>
+                    <p>Invite your friends and earn 5% commission on their deposits!</p>
+                </div>
+
+                <!-- Stats -->
+                <div class="referral-stats">
+                    <div class="stat-card-ref">
+                        <div class="stat-icon-ref">
+                            <i class="fas fa-user-friends"></i>
+                        </div>
+                        <div class="stat-number-ref" id="totalReferralsUser">0</div>
+                        <div class="stat-label-ref">TOTAL REFERRALS</div>
+                    </div>
+                    
+                    <div class="stat-card-ref">
+                        <div class="stat-icon-ref">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <div class="stat-number-ref">$<span id="totalEarned">0.00</span></div>
+                        <div class="stat-label-ref">TOTAL EARNED</div>
+                    </div>
+                    
+                    <div class="stat-card-ref">
+                        <div class="stat-icon-ref">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-number-ref" id="activeReferralsUser">0</div>
+                        <div class="stat-label-ref">ACTIVE REFERRALS</div>
+                    </div>
+                    
+                    <div class="stat-card-ref">
+                        <div class="stat-icon-ref">
+                            <i class="fas fa-gift"></i>
+                        </div>
+                        <div class="stat-number-ref">$<span id="pendingEarnings">0.00</span></div>
+                        <div class="stat-label-ref">PENDING EARNINGS</div>
+                    </div>
+                </div>
+
+                <!-- Main Content -->
+                <div class="referral-content">
+                    <!-- Left Column: Referral Code & Sharing -->
+                    <div class="referral-card">
+                        <h2><i class="fas fa-qrcode"></i> YOUR REFERRAL CODE</h2>
+                        
+                        <div class="referral-code-box">
+                            <div class="code-label">SHARE THIS CODE WITH FRIENDS</div>
+                            <div class="code-value" id="userReferralCode">BDTRADE123</div>
+                            <div class="copy-buttons">
+                                <button class="btn-copy-code" onclick="copyReferralCode()">
+                                    <i class="fas fa-copy"></i> COPY CODE
+                                </button>
+                                <button class="btn-copy-link" onclick="copyReferralLink()">
+                                    <i class="fas fa-link"></i> COPY LINK
+                                </button>
+                            </div>
+                        </div>
+
+                        <h3 style="color: #fff; margin: 25px 0 15px 0;">SHARE VIA</h3>
+                        <div class="share-buttons">
+                            <button class="share-btn share-fb" onclick="shareOnFacebook()">
+                                <i class="fab fa-facebook-f"></i> Facebook
+                            </button>
+                            <button class="share-btn share-wa" onclick="shareOnWhatsApp()">
+                                <i class="fab fa-whatsapp"></i> WhatsApp
+                            </button>
+                            <button class="share-btn share-telegram" onclick="shareOnTelegram()">
+                                <i class="fab fa-telegram"></i> Telegram
+                            </button>
+                            <button class="share-btn share-twitter" onclick="shareOnTwitter()">
+                                <i class="fab fa-twitter"></i> Twitter
+                            </button>
+                        </div>
+
+                        <div style="margin-top: 30px;">
+                            <h3 style="color: #fff; margin-bottom: 15px;">REFERRAL LINK</h3>
+                            <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 5px; border: 1px solid #00ffea;">
+                                <code id="referralLink" style="color: #00ffea; word-break: break-all; font-size: 14px;">
+                                    https://bdtrade.com/register?ref=BDTRADE123
+                                </code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: How It Works -->
+                    <div class="referral-card">
+                        <h2><i class="fas fa-graduation-cap"></i> HOW IT WORKS</h2>
+                        
+                        <div class="steps-container">
+                            <div class="step-item">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h4>SHARE YOUR CODE</h4>
+                                    <p>Share your unique referral code or link with friends</p>
+                                </div>
+                            </div>
+                            
+                            <div class="step-item">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h4>FRIEND SIGNS UP</h4>
+                                    <p>Your friend registers using your code or link</p>
+                                </div>
+                            </div>
+                            
+                            <div class="step-item">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h4>FRIEND DEPOSITS</h4>
+                                    <p>Your friend makes their first deposit ($10 minimum)</p>
+                                </div>
+                            </div>
+                            
+                            <div class="step-item">
+                                <div class="step-number">4</div>
+                                <div class="step-content">
+                                    <h4>EARN COMMISSION</h4>
+                                    <p>You earn 5% commission on your friend's deposits</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 30px; padding: 20px; background: rgba(0,255,234,0.1); border-radius: 10px; border: 1px solid #00ffea;">
+                            <h4 style="color: #00ffea; margin-bottom: 10px;"><i class="fas fa-info-circle"></i> IMPORTANT NOTES</h4>
+                            <ul style="color: #888; font-size: 14px; line-height: 1.6; padding-left: 20px;">
+                                <li>Minimum deposit for commission: $10</li>
+                                <li>Commission rate: 5% of friend's deposits</li>
+                                <li>Earnings are credited instantly</li>
+                                <li>No limit on number of referrals</li>
+                                <li>Withdraw your earnings anytime</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Referral List -->
+                    <div class="referral-card">
+                        <h2><i class="fas fa-users"></i> YOUR REFERRALS</h2>
+                        
+                        <div class="referral-list" id="referralList">
+                            <!-- Referrals will be loaded dynamically -->
+                            <div class="empty-state" id="emptyReferrals">
+                                <div class="empty-icon">
+                                    <i class="fas fa-user-friends"></i>
+                                </div>
+                                <h3 style="color: #fff; margin-bottom: 10px;">No Referrals Yet</h3>
+                                <p>Start sharing your referral code to earn commissions!</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Commission History -->
+                    <div class="referral-card">
+                        <h2><i class="fas fa-history"></i> COMMISSION HISTORY</h2>
+                        
+                        <div class="commission-history">
+                            <div class="table-container">
+                                <table class="history-table">
+                                    <thead>
+                                        <tr>
+                                            <th>DATE</th>
+                                            <th>REFERRED USER</th>
+                                            <th>DEPOSIT AMOUNT</th>
+                                            <th>COMMISSION</th>
+                                            <th>STATUS</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="commissionHistory">
+                                        <!-- Commission history will be loaded dynamically -->
+                                        <tr>
+                                            <td colspan="5" style="text-align: center; color: #888; padding: 30px;">
+                                                No commission history yet
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Referral Banner -->
+                <div class="referral-banner">
+                    <div class="banner-title">START EARNING TODAY!</div>
+                    <div class="banner-subtitle">Every friend you refer means more earnings for you</div>
+                    
+                    <div class="share-buttons" style="justify-content: center; margin-top: 20px;">
+                        <button class="share-btn share-fb" onclick="shareOnFacebook()" style="background: #000; color: #fff; border: 2px solid #000;">
+                            <i class="fab fa-facebook-f"></i> Share on Facebook
+                        </button>
+                        <button class="share-btn share-wa" onclick="shareOnWhatsApp()" style="background: #000; color: #fff; border: 2px solid #000;">
+                            <i class="fab fa-whatsapp"></i> Share on WhatsApp
+                        </button>
+                    </div>
+                    
+                    <div class="banner-stats">
+                        <div class="banner-stat">
+                            <div class="banner-stat-number" id="totalUsersReferred">0</div>
+                            <div class="banner-stat-label">Users Referred</div>
+                        </div>
+                        <div class="banner-stat">
+                            <div class="banner-stat-number">$<span id="totalCommissionPaid">0</span></div>
+                            <div class="banner-stat-label">Total Paid</div>
+                        </div>
+                        <div class="banner-stat">
+                            <div class="banner-stat-number" id="topEarner">$0</div>
+                            <div class="banner-stat-label">Top Earner This Month</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Load user data and initialize referral system
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                document.getElementById('loadingScreen').style.opacity = '0';
+                setTimeout(function() {
+                    document.getElementById('loadingScreen').style.display = 'none';
+                    document.getElementById('dashboardContainer').style.display = 'flex';
+                    initializeReferralSystem();
+                }, 500);
+            }, 2000);
+            
+            checkLoginStatus();
+        });
+
+        function checkLoginStatus() {
+            const currentUser = localStorage.getItem('currentUser');
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            loadUserData(currentUser);
+        }
+
+        function loadUserData(uid) {
+            const userKey = 'user_' + uid;
+            const userData = JSON.parse(localStorage.getItem(userKey));
+            
+            if (userData) {
+                document.getElementById('userName').textContent = 
+                    userData.firstName + ' ' + userData.lastName;
+                document.getElementById('userUID').textContent = 'UID: ' + userData.uid;
+                
+                // Set referral code
+                if (!userData.myReferralCode) {
+                    userData.myReferralCode = generateReferralCode();
+                    localStorage.setItem(userKey, JSON.stringify(userData));
+                }
+                
+                document.getElementById('userReferralCode').textContent = userData.myReferralCode;
+                document.getElementById('referralLink').textContent = 
+                    `https://bdtrade.com/register?ref=${userData.myReferralCode}`;
+                
+                window.currentUser = userData;
+            } else {
+                window.location.href = 'login.html';
+            }
+        }
+
+        function initializeReferralSystem() {
+            // Load referral statistics
+            loadReferralStats();
+            
+            // Load referrals list
+            loadUserReferrals();
+            
+            // Load commission history
+            loadCommissionHistory();
+        }
+
+        function loadReferralStats() {
+            // Calculate statistics
+            let totalReferrals = 0;
+            let totalEarned = 0;
+            let activeReferrals = 0;
+            let pendingEarnings = 0;
+            
+            // Find users referred by current user
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key.startsWith('user_')) {
+                    const user = JSON.parse(localStorage.getItem(key));
+                    if (user.referralCode === window.currentUser.myReferralCode) {
+                        totalReferrals++;
+                        
+                        // Check if active (has made at least one deposit)
+                        let hasDeposits = false;
+                        for (let j = 0; j < localStorage.length; j++) {
+                            const depKey = localStorage.key(j);
+                            if (depKey.startsWith('deposit_')) {
+                                const deposit = JSON.parse(localStorage.getItem(depKey));
+                                if (deposit.userId === user.uid && deposit.status === 'approved') {
+                                    hasDeposits = true;
+                                    
+                                    // Calculate commission (5%)
+                                    const commission = deposit.amount * 0.05;
+                                    
+                                    if (deposit.commissionPaid) {
+                                        totalEarned += commission;
+                                    } else {
+                                        pendingEarnings += commission;
+                                    }
+                                }
+                            }
+                        }
+                        
+                        if (hasDeposits) activeReferrals++;
+                    }
+                }
+            }
+            
+            // Update UI
+            document.getElementById('totalReferralsUser').textContent = totalReferrals;
+            document.getElementById('totalEarned').textContent = totalEarned.toFixed(2);
+            document.getElementById('activeReferralsUser').textContent = activeReferrals;
+            document.getElementById('pendingEarnings').textContent = pendingEarnings.toFixed(2);
+            document.getElementById('referralEarnings').textContent = totalEarned.toFixed(2);
+            document.getElementById('totalUsersReferred').textContent = totalReferrals;
+            document.getElementById('totalCommissionPaid').textContent = totalEarned.toFixed(0);
+            
+            // For demo, set some random values
+            document.getElementById('topEarner').textContent = '$' + (Math.random() * 1000 + 500).toFixed(0);
+        }
+
+        function loadUserReferrals() {
+            const referralList = document.getElementById('referralList');
+            const emptyReferrals = document.getElementById('emptyReferrals');
+            
+            // Clear existing content but keep empty state
+            referralList.innerHTML = '';
+            referralList.appendChild(emptyReferrals);
+            
+            const referrals = [];
+            
+            // Find users referred by current user
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key.startsWith('user_')) {
+                    const user = JSON.parse(localStorage.getItem(key));
+                    if (user.referralCode === window.currentUser.myReferralCode) {
+                        referrals.push(user);
+                    }
+                }
+            }
+            
+            if (referrals.length > 0) {
+                emptyReferrals.style.display = 'none';
+                
+                referrals.forEach(user => {
+                    // Check if user is active (has deposits)
+                    let isActive = false;
+                    for (let j = 0; j < localStorage.length; j++) {
+                        const depKey = localStorage.key(j);
+                        if (depKey.startsWith('deposit_')) {
+                            const deposit = JSON.parse(localStorage.getItem(depKey));
+                            if (deposit.userId === user.uid && deposit.status === 'approved') {
+                                isActive = true;
+                                break;
+                            }
+                        }
+                    }
+                    
+                    const item = document.createElement('div');
+                    item.className = 'referral-item';
+                    item.innerHTML = `
+                        <div class="referral-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="referral-info">
+                            <div class="referral-name">${user.firstName} ${user.lastName}</div>
+                            <div class="referral-date">Joined: ${new Date(user.registeredAt || Date.now()).toLocaleDateString()}</div>
+                        </div>
+                        <div class="referral-status ${isActive ? 'status-active' : 'status-inactive'}">
+                            ${isActive ? 'ACTIVE' : 'INACTIVE'}
+                        </div>
+                    `;
+                    
+                    referralList.insertBefore(item, emptyReferrals);
+                });
+            } else {
+                emptyReferrals.style.display = 'block';
+            }
+        }
+
+        function loadCommissionHistory() {
+            const historyTable = document.getElementById('commissionHistory');
+            historyTable.innerHTML = '';
+            
+            // For demo, create some sample data
+            const sampleData = [
+                {
+                    date: '2024-03-15',
+                    user: 'John Smith',
+                    deposit: 100,
+                    commission: 5,
+                    status: 'paid'
+                },
+                {
+                    date: '2024-03-10',
+                    user: 'Mike Johnson',
+                    deposit: 50,
+                    commission: 2.5,
+                    status: 'paid'
+                },
+                {
+                    date: '2024-03-05',
+                    user: 'Sarah Williams',
+                    deposit: 200,
+                    commission: 10,
+                    status: 'pending'
+                }
+            ];
+            
+            if (sampleData.length === 0) {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td colspan="5" style="text-align: center; color: #888; padding: 30px;">
+                        No commission history yet
+                    </td>
+                `;
+                historyTable.appendChild(row);
+            } else {
+                sampleData.forEach(item => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${item.date}</td>
+                        <td>${item.user}</td>
+                        <td>$${item.deposit.toFixed(2)}</td>
+                        <td class="commission-amount">$${item.commission.toFixed(2)}</td>
+                        <td>
+                            <span class="referral-status ${item.status === 'paid' ? 'status-active' : 'status-inactive'}">
+                                ${item.status.toUpperCase()}
+                            </span>
+                        </td>
+                    `;
+                    historyTable.appendChild(row);
+                });
+            }
+        }
+
+        function copyReferralCode() {
+            const code = document.getElementById('userReferralCode').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                showNotification('Referral code copied to clipboard!', 'success');
+            });
+        }
+
+        function copyReferralLink() {
+            const link = document.getElementById('referralLink').textContent;
+            navigator.clipboard.writeText(link).then(() => {
+                showNotification('Referral link copied to clipboard!', 'success');
+            });
+        }
+
+        function shareOnFacebook() {
+            const link = encodeURIComponent(document.getElementById('referralLink').textContent);
+            const text = encodeURIComponent(`Join BD TRADE using my referral code and get bonus! Code: ${window.currentUser.myReferralCode}`);
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${link}&quote=${text}`, '_blank');
+        }
+
+        function shareOnWhatsApp() {
+            const link = encodeURIComponent(document.getElementById('referralLink').textContent);
+            const text = encodeURIComponent(`Join BD TRADE - Best trading platform! Use my referral code: ${window.currentUser.myReferralCode}\n\n${link}`);
+            window.open(`https://wa.me/?text=${text}`, '_blank');
+        }
+
+        function shareOnTelegram() {
+            const link = encodeURIComponent(document.getElementById('referralLink').textContent);
+            const text = encodeURIComponent(`🚀 Join BD TRADE - The Future of Trading!\n\nUse my referral code: ${window.currentUser.myReferralCode}\n\n${link}`);
+            window.open(`https://t.me/share/url?url=${link}&text=${text}`, '_blank');
+        }
+
+        function shareOnTwitter() {
+            const link = encodeURIComponent(document.getElementById('referralLink').textContent);
+            const text = encodeURIComponent(`Join BD TRADE using my referral code ${window.currentUser.myReferralCode} and start trading!`);
+            window.open(`https://twitter.com/intent/tweet?url=${link}&text=${text}`, '_blank');
+        }
+
+        function generateReferralCode() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let code = '';
+            for (let i = 0; i < 8; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return 'BD' + code;
+        }
+
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <div class="notification-content">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                    <span>${message}</span>
+                </div>
+                <button class="notification-close" onclick="this.parentElement.remove()">&times;</button>
+            `;
+            
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? 'rgba(0, 255, 0, 0.9)' : 'rgba(255, 0, 0, 0.9)'};
+                color: white;
+                padding: 15px 25px;
+                border-radius: 10px;
+                z-index: 10000;
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                animation: slideInRight 0.5s ease-out;
+                box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+                min-width: 300px;
+                max-width: 400px;
+            `;
+            
+            notification.querySelector('.notification-close').style.cssText = `
+                background: transparent;
+                border: none;
+                color: white;
+                font-size: 20px;
+                cursor: pointer;
+                margin-left: auto;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.style.animation = 'slideOutRight 0.5s ease-out forwards';
+                    setTimeout(() => notification.remove(), 500);
+                }
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

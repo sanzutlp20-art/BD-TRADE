@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BD TRADE - Future of Trading</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loader">
+            <div class="orbit"></div>
+            <div class="orbit"></div>
+            <div class="orbit"></div>
+        </div>
+        <p>INITIALIZING BD TRADE SYSTEM...</p>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container" id="mainContainer" style="display: none;">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-container">
+                <div class="logo-glitch" data-text="BD TRADE">BD TRADE</div>
+                <div class="logo-sub">FUTURE TRADING PLATFORM</div>
+            </div>
+            <div class="auth-buttons">
+                <a href="register.html" class="btn-register">
+                    <i class="fas fa-user-plus"></i> REGISTER
+                </a>
+                <a href="login.html" class="btn-login">
+                    <i class="fas fa-sign-in-alt"></i> LOGIN
+                </a>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="cyber-text">TRADE THE</span>
+                    <span class="neon-text">FUTURE</span>
+                </h1>
+                <p class="hero-subtitle">Experience Next-Gen Color Trading with AI-Powered Predictions</p>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="liveTraders">0</div>
+                        <div class="stat-label">LIVE TRADERS</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">$<span id="totalVolume">0</span></div>
+                        <div class="stat-label">24H VOLUME</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number"><span id="winRate">0</span>%</div>
+                        <div class="stat-label">WIN RATE</div>
+                    </div>
+                </div>
+
+                <div class="cta-buttons">
+                    <a href="register.html" class="btn-cta-primary">
+                        START TRADING <i class="fas fa-rocket"></i>
+                    </a>
+                    <a href="#features" class="btn-cta-secondary">
+                        LEARN MORE <i class="fas fa-chevron-down"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="cyber-grid"></div>
+                <div class="floating-elements">
+                    <div class="float-element el1">BTC</div>
+                    <div class="float-element el2">ETH</div>
+                    <div class="float-element el3">XRP</div>
+                    <div class="float-element el4">LTC</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features -->
+        <section class="features" id="features">
+            <h2 class="section-title">WHY CHOOSE <span class="neon-text">BD TRADE</span></h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>LIGHTNING FAST</h3>
+                    <p>30-second to 5-minute trading cycles. Instant execution.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>SECURE & SAFE</h3>
+                    <p>Military-grade encryption for all transactions.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>AI PREDICTION</h3>
+                    <p>Advanced algorithms for market analysis.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <h3>EASY WITHDRAWAL</h3>
+                    <p>Fast withdrawal processing within 2 hours.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trading Preview -->
+        <section class="trading-preview">
+            <h2 class="section-title">LIVE <span class="neon-text">TRADING</span> PREVIEW</h2>
+            
+            <div class="trading-widget">
+                <div class="widget-header">
+                    <div class="time-options">
+                        <button class="time-btn active">30s</button>
+                        <button class="time-btn">1m</button>
+                        <button class="time-btn">3m</button>
+                        <button class="time-btn">5m</button>
+                    </div>
+                    <div class="balance-preview">
+                        <span>BALANCE:</span>
+                        <span class="balance-amount">$0.00</span>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <canvas id="previewChart"></canvas>
+                </div>
+                
+                <div class="trade-buttons">
+                    <button class="btn-trade red">
+                        <i class="fas fa-arrow-down"></i> RED
+                        <div class="odds">1.90x</div>
+                    </button>
+                    <button class="btn-trade green">
+                        <i class="fas fa-arrow-up"></i> GREEN
+                        <div class="odds">1.90x</div>
+                    </button>
+                </div>
+                
+                <div class="amount-selector">
+                    <div class="amount-btn active">5</div>
+                    <div class="amount-btn">10</div>
+                    <div class="amount-btn">50</div>
+                    <div class="amount-btn">100</div>
+                    <input type="number" class="custom-amount" placeholder="Custom">
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-logo">BD TRADE</div>
+                <div class="footer-links">
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Contact</a>
+                    <a href="#">FAQ</a>
+                </div>
+                <div class="footer-disclaimer">
+                    <p><i class="fas fa-exclamation-triangle"></i> Trading involves risk. Only trade with money you can afford to lose.</p>
+                    <p>© 2024 BD TRADE.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
