@@ -4,313 +4,473 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - BD TRADE</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="dashboard.css">
     <link rel="stylesheet" href="admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background: #0a0a0f;
+            color: white;
+            overflow-x: hidden;
+        }
+        
+        /* Admin Login Page */
+        .admin-login-page {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%);
+            padding: 20px;
+        }
+        
+        .login-container {
+            background: rgba(10, 10, 20, 0.95);
+            border: 3px solid #00ffea;
+            border-radius: 20px;
+            padding: 50px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 0 50px rgba(0, 255, 234, 0.3);
+            text-align: center;
+            animation: glow 2s infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { box-shadow: 0 0 30px rgba(0, 255, 234, 0.3); }
+            to { box-shadow: 0 0 50px rgba(0, 255, 234, 0.6); }
+        }
+        
+        .login-header {
+            margin-bottom: 40px;
+        }
+        
+        .admin-icon {
+            font-size: 80px;
+            color: #00ffea;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .login-header h1 {
+            font-size: 32px;
+            color: #fff;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .login-header p {
+            color: #888;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+        
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .form-group {
+            position: relative;
+        }
+        
+        .form-group label {
+            display: block;
+            color: #00ffea;
+            margin-bottom: 8px;
+            font-size: 14px;
+            text-align: left;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            padding-left: 45px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid #00ffea;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #ff00ff;
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
+        }
+        
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 40px;
+            color: #00ffea;
+            font-size: 18px;
+        }
+        
+        .login-btn {
+            padding: 15px;
+            background: linear-gradient(45deg, #ff00ff, #00ffea);
+            border: none;
+            border-radius: 10px;
+            color: #000;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 0, 255, 0.3);
+        }
+        
+        .security-note {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 30px;
+            padding: 15px;
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid #ff0000;
+            border-radius: 10px;
+            color: #ff5555;
+            font-size: 12px;
+        }
+        
+        .security-note i {
+            font-size: 20px;
+        }
+        
+        .demo-credentials {
+            background: rgba(0, 255, 234, 0.1);
+            border: 1px solid #00ffea;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            text-align: left;
+        }
+        
+        .demo-credentials h4 {
+            color: #00ffea;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .demo-credentials p {
+            color: #fff;
+            font-size: 14px;
+            margin: 5px 0;
+        }
+        
+        /* Admin Panel */
+        .admin-panel {
+            display: none;
+            min-height: 100vh;
+            background: #0a0a0f;
+        }
+        
+        /* Alert */
+        .admin-alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 10px;
+            color: white;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-width: 300px;
+            animation: slideInRight 0.5s ease-out;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            border: 2px solid;
+        }
+        
+        .alert-success {
+            background: rgba(0, 255, 0, 0.9);
+            border-color: #00ff00;
+        }
+        
+        .alert-error {
+            background: rgba(255, 0, 0, 0.9);
+            border-color: #ff0000;
+        }
+        
+        .alert-close {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            margin-left: 15px;
+        }
+        
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slideOutRight {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+    </style>
 </head>
 <body>
-    <!-- Admin Login Screen -->
-    <div class="admin-login" id="adminLogin">
-        <div class="login-box">
+    <!-- Admin Login Page -->
+    <div class="admin-login-page" id="loginPage">
+        <div class="login-container">
             <div class="login-header">
-                <div class="admin-logo">
+                <div class="admin-icon">
                     <i class="fas fa-user-shield"></i>
-                    <h1>BD TRADE ADMIN</h1>
                 </div>
-                <p class="login-subtitle">Restricted Access Area</p>
+                <h1>BD TRADE ADMIN</h1>
+                <p>Restricted Access Area</p>
             </div>
             
-            <form id="adminLoginForm">
+            <form class="login-form" id="adminLoginForm">
                 <div class="form-group">
-                    <label>ADMIN USERNAME</label>
+                    <label><i class="fas fa-user"></i> ADMIN USERNAME</label>
                     <input type="text" id="adminUsername" placeholder="Enter username" required>
                     <i class="fas fa-user input-icon"></i>
                 </div>
                 
                 <div class="form-group">
-                    <label>ADMIN PASSWORD</label>
+                    <label><i class="fas fa-lock"></i> ADMIN PASSWORD</label>
                     <input type="password" id="adminPassword" placeholder="Enter password" required>
                     <i class="fas fa-lock input-icon"></i>
                 </div>
                 
                 <div class="form-group">
-                    <label>SECURITY KEY</label>
+                    <label><i class="fas fa-key"></i> SECURITY KEY</label>
                     <input type="text" id="securityKey" placeholder="Enter security key" required>
                     <i class="fas fa-key input-icon"></i>
                 </div>
                 
-                <button type="submit" class="btn-login-admin">
+                <button type="submit" class="login-btn">
                     <i class="fas fa-sign-in-alt"></i> ACCESS ADMIN PANEL
                 </button>
                 
-                <div class="login-note">
+                <div class="demo-credentials">
+                    <h4><i class="fas fa-info-circle"></i> DEMO CREDENTIALS</h4>
+                    <p><strong>Username:</strong> admin</p>
+                    <p><strong>Password:</strong> admin123</p>
+                    <p><strong>Security Key:</strong> BDTRADE2024</p>
+                </div>
+                
+                <div class="security-note">
                     <i class="fas fa-exclamation-triangle"></i>
-                    <p>Unauthorized access is strictly prohibited</p>
+                    <p>Unauthorized access is strictly prohibited. For authorized personnel only.</p>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Admin Panel -->
-    <div class="admin-container" id="adminContainer" style="display: none;">
-        <!-- Admin Sidebar -->
-        <aside class="admin-sidebar">
-            <div class="admin-sidebar-header">
-                <div class="admin-panel-logo">
+    <!-- Admin Panel (Initially hidden) -->
+    <div class="admin-panel" id="adminPanel">
+        <!-- Admin panel content will be loaded by admin.js -->
+        <div class="admin-sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
                     <i class="fas fa-user-shield"></i>
                     <div>
-                        <div class="logo-text">BD TRADE</div>
-                        <div class="logo-sub">ADMIN PANEL</div>
+                        <h2>BD TRADE</h2>
+                        <p>ADMIN PANEL</p>
                     </div>
                 </div>
                 <div class="admin-info">
-                    <div class="admin-name" id="adminName">SUPER ADMIN</div>
-                    <div class="admin-role">System Administrator</div>
+                    <div class="admin-name" id="displayAdminName">Super Admin</div>
+                    <div class="admin-status online">Online</div>
                 </div>
             </div>
-
+            
             <nav class="admin-menu">
-                <a href="#dashboard" class="admin-menu-item active" onclick="showSection('dashboard')">
+                <a href="#" class="menu-item active" onclick="showSection('dashboard')">
                     <i class="fas fa-tachometer-alt"></i>
-                    <span>DASHBOARD</span>
+                    <span>Dashboard</span>
                 </a>
-                <a href="#users" class="admin-menu-item" onclick="showSection('users')">
+                <a href="#" class="menu-item" onclick="showSection('users')">
                     <i class="fas fa-users"></i>
-                    <span>USER MANAGEMENT</span>
-                    <span class="menu-badge" id="usersCount">0</span>
+                    <span>Users</span>
+                    <span class="badge" id="usersCount">0</span>
                 </a>
-                <a href="#deposits" class="admin-menu-item" onclick="showSection('deposits')">
-                    <i class="fas fa-arrow-down"></i>
-                    <span>DEPOSIT REQUESTS</span>
-                    <span class="menu-badge" id="pendingDeposits">0</span>
+                <a href="#" class="menu-item" onclick="showSection('deposits')">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span>Deposits</span>
+                    <span class="badge" id="depositsCount">0</span>
                 </a>
-                <a href="#withdrawals" class="admin-menu-item" onclick="showSection('withdrawals')">
-                    <i class="fas fa-arrow-up"></i>
-                    <span>WITHDRAWAL REQUESTS</span>
-                    <span class="menu-badge" id="pendingWithdrawals">0</span>
+                <a href="#" class="menu-item" onclick="showSection('withdrawals')">
+                    <i class="fas fa-wallet"></i>
+                    <span>Withdrawals</span>
+                    <span class="badge" id="withdrawalsCount">0</span>
                 </a>
-                <a href="#trades" class="admin-menu-item" onclick="showSection('trades')">
+                <a href="#" class="menu-item" onclick="showSection('trades')">
                     <i class="fas fa-chart-line"></i>
-                    <span>TRADE HISTORY</span>
+                    <span>Trades</span>
                 </a>
-                <a href="#referrals" class="admin-menu-item" onclick="showSection('referrals')">
+                <a href="#" class="menu-item" onclick="showSection('referrals')">
                     <i class="fas fa-user-friends"></i>
-                    <span>REFERRAL SYSTEM</span>
+                    <span>Referrals</span>
                 </a>
-                <a href="#settings" class="admin-menu-item" onclick="showSection('settings')">
-                    <i class="fas fa-cogs"></i>
-                    <span>SYSTEM SETTINGS</span>
-                </a>
-                <a href="#reports" class="admin-menu-item" onclick="showSection('reports')">
-                    <i class="fas fa-file-alt"></i>
-                    <span>REPORTS</span>
-                </a>
-                <a href="#" class="admin-menu-item logout" onclick="logoutAdmin()">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>LOGOUT</span>
+                <a href="#" class="menu-item" onclick="showSection('settings')">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
                 </a>
             </nav>
-
-            <div class="system-status">
-                <div class="status-header">
-                    <i class="fas fa-server"></i>
-                    <span>SYSTEM STATUS</span>
-                </div>
-                <div class="status-items">
-                    <div class="status-item online">
-                        <div class="status-dot"></div>
-                        <span>Trading</span>
-                    </div>
-                    <div class="status-item online">
-                        <div class="status-dot"></div>
-                        <span>Payments</span>
-                    </div>
-                    <div class="status-item online">
-                        <div class="status-dot"></div>
-                        <span>Database</span>
-                    </div>
-                </div>
+            
+            <div class="sidebar-footer">
+                <button class="logout-btn" onclick="adminLogout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
             </div>
-        </aside>
-
-        <!-- Admin Main Content -->
-        <main class="admin-main">
-            <!-- Admin Top Bar -->
-            <header class="admin-top-bar">
-                <div class="top-bar-left">
-                    <h1 id="adminSectionTitle">ADMIN DASHBOARD</h1>
-                    <p id="adminSectionSubtitle">Welcome to BD TRADE Administration Panel</p>
+        </div>
+        
+        <div class="admin-main">
+            <header class="admin-header">
+                <div class="header-left">
+                    <h1 id="pageTitle">Admin Dashboard</h1>
+                    <p id="pageSubtitle">Welcome to BD Trade Admin Panel</p>
                 </div>
-                
-                <div class="top-bar-right">
-                    <div class="admin-stats">
-                        <div class="stat-box">
-                            <div class="stat-label">TOTAL USERS</div>
-                            <div class="stat-value" id="totalUsersStat">0</div>
+                <div class="header-right">
+                    <div class="stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Total Users</span>
+                            <span class="stat-value" id="totalUsers">0</span>
                         </div>
-                        <div class="stat-box">
-                            <div class="stat-label">TODAY'S PROFIT</div>
-                            <div class="stat-value profit">$0.00</div>
+                        <div class="stat-item">
+                            <span class="stat-label">Today's Profit</span>
+                            <span class="stat-value profit" id="todayProfit">$0</span>
                         </div>
-                        <div class="stat-box">
-                            <div class="stat-label">ONLINE USERS</div>
-                            <div class="stat-value" id="onlineUsersStat">0</div>
+                        <div class="stat-item">
+                            <span class="stat-label">Online</span>
+                            <span class="stat-value" id="onlineUsers">0</span>
+                        </div>
+                    </div>
+                    <button class="refresh-btn" onclick="loadAllData()">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                </div>
+            </header>
+            
+            <div class="admin-content">
+                <!-- Dashboard Section -->
+                <section id="dashboardSection" class="content-section active">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <i class="fas fa-users"></i>
+                            <div class="stat-content">
+                                <h3 id="totalUsersCard">0</h3>
+                                <p>Total Users</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-wallet"></i>
+                            <div class="stat-content">
+                                <h3 id="totalBalanceCard">$0</h3>
+                                <p>Total Balance</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <div class="stat-content">
+                                <h3 id="totalDepositsCard">$0</h3>
+                                <p>Total Deposits</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-hand-holding-usd"></i>
+                            <div class="stat-content">
+                                <h3 id="totalWithdrawalsCard">$0</h3>
+                                <p>Total Withdrawals</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-chart-line"></i>
+                            <div class="stat-content">
+                                <h3 id="totalTradesCard">0</h3>
+                                <p>Total Trades</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-coins"></i>
+                            <div class="stat-content">
+                                <h3 id="platformProfitCard">$0</h3>
+                                <p>Platform Profit</p>
+                            </div>
                         </div>
                     </div>
                     
-                    <div class="admin-actions">
-                        <button class="btn-admin-action" onclick="refreshData()">
-                            <i class="fas fa-sync-alt"></i> REFRESH
-                        </button>
-                        <button class="btn-admin-action" onclick="exportData()">
-                            <i class="fas fa-download"></i> EXPORT
-                        </button>
+                    <div class="charts-row">
+                        <div class="chart-card">
+                            <h3><i class="fas fa-chart-pie"></i> Users Distribution</h3>
+                            <div class="chart-container">
+                                <canvas id="usersChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="chart-card">
+                            <h3><i class="fas fa-chart-bar"></i> Daily Activity</h3>
+                            <div class="chart-container">
+                                <canvas id="activityChart"></canvas>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </header>
-
-            <!-- Admin Sections -->
-            <div class="admin-sections">
-                <!-- Dashboard Section -->
-                <section id="dashboardSection" class="admin-section active">
-                    <div class="dashboard-grid">
-                        <!-- Stats Overview -->
-                        <div class="admin-card stats-overview">
-                            <div class="card-header">
-                                <h3><i class="fas fa-chart-bar"></i> PLATFORM OVERVIEW</h3>
-                            </div>
-                            <div class="card-body">
-                                <div class="stats-grid">
-                                    <div class="stat-card">
-                                        <div class="stat-icon">
-                                            <i class="fas fa-users"></i>
-                                        </div>
-                                        <div class="stat-content">
-                                            <div class="stat-number" id="totalUsers">0</div>
-                                            <div class="stat-label">Total Users</div>
-                                        </div>
-                                    </div>
-                                    <div class="stat-card">
-                                        <div class="stat-icon">
-                                            <i class="fas fa-wallet"></i>
-                                        </div>
-                                        <div class="stat-content">
-                                            <div class="stat-number">$<span id="totalBalance">0</span></div>
-                                            <div class="stat-label">Total Balance</div>
-                                        </div>
-                                    </div>
-                                    <div class="stat-card">
-                                        <div class="stat-icon">
-                                            <i class="fas fa-hand-holding-usd"></i>
-                                        </div>
-                                        <div class="stat-content">
-                                            <div class="stat-number">$<span id="totalDeposits">0</span></div>
-                                            <div class="stat-label">Total Deposits</div>
-                                        </div>
-                                    </div>
-                                    <div class="stat-card">
-                                        <div class="stat-icon">
-                                            <i class="fas fa-money-check-alt"></i>
-                                        </div>
-                                        <div class="stat-content">
-                                            <div class="stat-number">$<span id="totalWithdrawals">0</span></div>
-                                            <div class="stat-label">Total Withdrawals</div>
-                                        </div>
-                                    </div>
-                                    <div class="stat-card">
-                                        <div class="stat-icon">
-                                            <i class="fas fa-chart-line"></i>
-                                        </div>
-                                        <div class="stat-content">
-                                            <div class="stat-number" id="totalTradesAdmin">0</div>
-                                            <div class="stat-label">Total Trades</div>
-                                        </div>
-                                    </div>
-                                    <div class="stat-card">
-                                        <div class="stat-icon">
-                                            <i class="fas fa-coins"></i>
-                                        </div>
-                                        <div class="stat-content">
-                                            <div class="stat-number">$<span id="platformProfit">0</span></div>
-                                            <div class="stat-label">Platform Profit</div>
-                                        </div>
-                                    </div>
+                    
+                    <div class="recent-activity">
+                        <h3><i class="fas fa-history"></i> Recent Activity</h3>
+                        <div class="activity-list" id="activityList">
+                            <div class="activity-item">
+                                <i class="fas fa-user-plus"></i>
+                                <div class="activity-content">
+                                    <p>New user registered: John Doe</p>
+                                    <span class="activity-time">2 minutes ago</span>
                                 </div>
                             </div>
-                        </div>
-
-                        <!-- Recent Activity -->
-                        <div class="admin-card recent-activity">
-                            <div class="card-header">
-                                <h3><i class="fas fa-history"></i> RECENT ACTIVITY</h3>
-                            </div>
-                            <div class="card-body">
-                                <div class="activity-list" id="activityList">
-                                    <!-- Activities will be added dynamically -->
+                            <div class="activity-item">
+                                <i class="fas fa-money-bill-wave"></i>
+                                <div class="activity-content">
+                                    <p>Deposit approved: $500</p>
+                                    <span class="activity-time">10 minutes ago</span>
                                 </div>
                             </div>
-                        </div>
-
-                        <!-- Quick Actions -->
-                        <div class="admin-card quick-actions-card">
-                            <div class="card-header">
-                                <h3><i class="fas fa-bolt"></i> QUICK ACTIONS</h3>
-                            </div>
-                            <div class="card-body">
-                                <div class="quick-actions-grid">
-                                    <button class="quick-action-btn" onclick="showSection('deposits')">
-                                        <i class="fas fa-arrow-down"></i>
-                                        <span>Process Deposits</span>
-                                    </button>
-                                    <button class="quick-action-btn" onclick="showSection('withdrawals')">
-                                        <i class="fas fa-arrow-up"></i>
-                                        <span>Process Withdrawals</span>
-                                    </button>
-                                    <button class="quick-action-btn" onclick="addNewUser()">
-                                        <i class="fas fa-user-plus"></i>
-                                        <span>Add New User</span>
-                                    </button>
-                                    <button class="quick-action-btn" onclick="sendBroadcast()">
-                                        <i class="fas fa-bullhorn"></i>
-                                        <span>Send Broadcast</span>
-                                    </button>
-                                    <button class="quick-action-btn" onclick="backupDatabase()">
-                                        <i class="fas fa-database"></i>
-                                        <span>Backup Database</span>
-                                    </button>
-                                    <button class="quick-action-btn" onclick="showSection('settings')">
-                                        <i class="fas fa-cog"></i>
-                                        <span>System Settings</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Platform Statistics -->
-                        <div class="admin-card platform-stats">
-                            <div class="card-header">
-                                <h3><i class="fas fa-chart-pie"></i> PLATFORM STATISTICS</h3>
-                            </div>
-                            <div class="card-body">
-                                <div class="stats-chart">
-                                    <canvas id="platformChart"></canvas>
+                            <div class="activity-item">
+                                <i class="fas fa-chart-line"></i>
+                                <div class="activity-content">
+                                    <p>Trading completed: 5 trades</p>
+                                    <span class="activity-time">1 hour ago</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </section>
-
-                <!-- Users Management Section -->
-                <section id="usersSection" class="admin-section">
+                
+                <!-- Users Section -->
+                <section id="usersSection" class="content-section">
                     <div class="section-header">
-                        <h2><i class="fas fa-users"></i> USER MANAGEMENT</h2>
+                        <h2><i class="fas fa-users"></i> User Management</h2>
                         <div class="section-actions">
-                            <button class="btn-action" onclick="addNewUser()">
-                                <i class="fas fa-user-plus"></i> ADD USER
-                            </button>
-                            <button class="btn-action" onclick="exportUsers()">
-                                <i class="fas fa-download"></i> EXPORT
+                            <button class="btn-primary" onclick="addNewUser()">
+                                <i class="fas fa-user-plus"></i> Add User
                             </button>
                             <div class="search-box">
                                 <input type="text" id="userSearch" placeholder="Search users...">
@@ -318,260 +478,64 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="admin-card">
-                        <div class="card-body">
-                            <div class="table-container">
-                                <table class="admin-table">
-                                    <thead>
-                                        <tr>
-                                            <th>UID</th>
-                                            <th>NAME</th>
-                                            <th>EMAIL/PHONE</th>
-                                            <th>BALANCE</th>
-                                            <th>STATUS</th>
-                                            <th>REGISTERED</th>
-                                            <th>LAST ACTIVE</th>
-                                            <th>ACTIONS</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="usersTable">
-                                        <!-- Users will be loaded dynamically -->
-                                    </tbody>
-                                </table>
-                            </div>
-                            
-                            <div class="pagination" id="usersPagination">
-                                <!-- Pagination will be added dynamically -->
-                            </div>
-                        </div>
+                    
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Balance</th>
+                                    <th>Status</th>
+                                    <th>Joined</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersTable">
+                                <!-- Users will be loaded here -->
+                            </tbody>
+                        </table>
                     </div>
                 </section>
-
-                <!-- Deposit Requests Section -->
-                <section id="depositsSection" class="admin-section">
+                
+                <!-- Deposits Section -->
+                <section id="depositsSection" class="content-section">
                     <div class="section-header">
-                        <h2><i class="fas fa-arrow-down"></i> DEPOSIT REQUESTS</h2>
-                        <div class="section-actions">
-                            <div class="filter-tabs">
-                                <button class="filter-btn active" onclick="filterDeposits('pending')">PENDING</button>
-                                <button class="filter-btn" onclick="filterDeposits('approved')">APPROVED</button>
-                                <button class="filter-btn" onclick="filterDeposits('rejected')">REJECTED</button>
-                                <button class="filter-btn" onclick="filterDeposits('all')">ALL</button>
-                            </div>
+                        <h2><i class="fas fa-money-bill-wave"></i> Deposit Requests</h2>
+                        <div class="filter-tabs">
+                            <button class="filter-btn active" onclick="filterDeposits('pending')">Pending</button>
+                            <button class="filter-btn" onclick="filterDeposits('approved')">Approved</button>
+                            <button class="filter-btn" onclick="filterDeposits('rejected')">Rejected</button>
                         </div>
                     </div>
-
-                    <div class="admin-card">
-                        <div class="card-body">
-                            <div class="table-container">
-                                <table class="admin-table">
-                                    <thead>
-                                        <tr>
-                                            <th>TRX ID</th>
-                                            <th>USER</th>
-                                            <th>METHOD</th>
-                                            <th>AMOUNT</th>
-                                            <th>DATE/TIME</th>
-                                            <th>STATUS</th>
-                                            <th>PROOF</th>
-                                            <th>ACTIONS</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="depositsTable">
-                                        <!-- Deposits will be loaded dynamically -->
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                    
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Transaction ID</th>
+                                    <th>User</th>
+                                    <th>Method</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="depositsTable">
+                                <!-- Deposits will be loaded here -->
+                            </tbody>
+                        </table>
                     </div>
                 </section>
-
-                <!-- Withdrawal Requests Section -->
-                <section id="withdrawalsSection" class="admin-section">
-                    <div class="section-header">
-                        <h2><i class="fas fa-arrow-up"></i> WITHDRAWAL REQUESTS</h2>
-                        <div class="section-actions">
-                            <div class="filter-tabs">
-                                <button class="filter-btn active" onclick="filterWithdrawals('pending')">PENDING</button>
-                                <button class="filter-btn" onclick="filterWithdrawals('approved')">APPROVED</button>
-                                <button class="filter-btn" onclick="filterWithdrawals('rejected')">REJECTED</button>
-                                <button class="filter-btn" onclick="filterWithdrawals('all')">ALL</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="admin-card">
-                        <div class="card-body">
-                            <div class="table-container">
-                                <table class="admin-table">
-                                    <thead>
-                                        <tr>
-                                            <th>REQUEST ID</th>
-                                            <th>USER</th>
-                                            <th>METHOD</th>
-                                            <th>ACCOUNT</th>
-                                            <th>AMOUNT</th>
-                                            <th>DATE/TIME</th>
-                                            <th>STATUS</th>
-                                            <th>ACTIONS</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="withdrawalsTable">
-                                        <!-- Withdrawals will be loaded dynamically -->
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Referral System Section -->
-                <section id="referralsSection" class="admin-section">
-                    <div class="section-header">
-                        <h2><i class="fas fa-user-friends"></i> REFERRAL SYSTEM</h2>
-                        <div class="section-actions">
-                            <button class="btn-action" onclick="updateReferralSettings()">
-                                <i class="fas fa-cog"></i> SETTINGS
-                            </button>
-                            <button class="btn-action" onclick="exportReferrals()">
-                                <i class="fas fa-download"></i> EXPORT
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="referral-content">
-                        <!-- Referral Settings -->
-                        <div class="admin-card">
-                            <div class="card-header">
-                                <h3><i class="fas fa-cog"></i> REFERRAL SETTINGS</h3>
-                            </div>
-                            <div class="card-body">
-                                <div class="settings-form">
-                                    <div class="form-group">
-                                        <label>Referral Commission (%)</label>
-                                        <input type="number" id="refCommission" value="5" min="0" max="50">
-                                        <small>Percentage earned from referred user's deposits</small>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Signup Bonus ($)</label>
-                                        <input type="number" id="signupBonus" value="0" min="0" max="100">
-                                        <small>Bonus for new user registration via referral</small>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Minimum Deposit for Commission ($)</label>
-                                        <input type="number" id="minDepositCommission" value="10" min="0">
-                                        <small>Minimum deposit amount to earn commission</small>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Maximum Referrals per User</label>
-                                        <input type="number" id="maxReferrals" value="100" min="1" max="1000">
-                                        <small>Maximum number of referrals allowed per user</small>
-                                    </div>
-                                    <button class="btn-save" onclick="saveReferralSettings()">
-                                        <i class="fas fa-save"></i> SAVE SETTINGS
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Top Referrers -->
-                        <div class="admin-card">
-                            <div class="card-header">
-                                <h3><i class="fas fa-trophy"></i> TOP REFERRERS</h3>
-                            </div>
-                            <div class="card-body">
-                                <div class="top-referrers" id="topReferrers">
-                                    <!-- Top referrers will be loaded dynamically -->
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Referral Statistics -->
-                        <div class="admin-card">
-                            <div class="card-header">
-                                <h3><i class="fas fa-chart-bar"></i> REFERRAL STATISTICS</h3>
-                            </div>
-                            <div class="card-body">
-                                <div class="stats-grid">
-                                    <div class="stat-box">
-                                        <div class="stat-number" id="totalReferrals">0</div>
-                                        <div class="stat-label">Total Referrals</div>
-                                    </div>
-                                    <div class="stat-box">
-                                        <div class="stat-number">$<span id="totalCommission">0</span></div>
-                                        <div class="stat-label">Total Commission Paid</div>
-                                    </div>
-                                    <div class="stat-box">
-                                        <div class="stat-number" id="activeReferrers">0</div>
-                                        <div class="stat-label">Active Referrers</div>
-                                    </div>
-                                    <div class="stat-box">
-                                        <div class="stat-number">$<span id="avgCommission">0</span></div>
-                                        <div class="stat-label">Avg. Commission</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Referral Transactions -->
-                        <div class="admin-card">
-                            <div class="card-header">
-                                <h3><i class="fas fa-exchange-alt"></i> REFERRAL TRANSACTIONS</h3>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-container">
-                                    <table class="admin-table">
-                                        <thead>
-                                            <tr>
-                                                <th>DATE</th>
-                                                <th>REFERRER</th>
-                                                <th>REFERRED USER</th>
-                                                <th>DEPOSIT AMOUNT</th>
-                                                <th>COMMISSION</th>
-                                                <th>STATUS</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="referralTransactions">
-                                            <!-- Transactions will be loaded dynamically -->
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
-        </main>
-    </div>
-
-    <!-- Modals -->
-    <div class="admin-modal" id="userModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="modalTitle">EDIT USER</h3>
-                <button class="modal-close" onclick="closeModal()">&times;</button>
-            </div>
-            <div class="modal-body">
-                <!-- User form will be loaded dynamically -->
+                
+                <!-- Other sections will be similar -->
             </div>
         </div>
     </div>
 
-    <div class="admin-modal" id="depositModalAdmin">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>PROCESS DEPOSIT</h3>
-                <button class="modal-close" onclick="closeModal()">&times;</button>
-            </div>
-            <div class="modal-body">
-                <!-- Deposit details will be loaded dynamically -->
-            </div>
-        </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="script.js"></script>
     <script src="admin.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>
